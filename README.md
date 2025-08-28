@@ -4,8 +4,7 @@
 
 A sophisticated WhatsApp chatbot system that integrates multiple AI agents and tools to provide intelligent responses and automated workflows.
 
-![System Overview](Ai-personality-Agents/photo/overview1.png)
-
+![Search Tool Example(Ai-personality-Agents/photo/overview1.png)
 
 ## Overview
 
