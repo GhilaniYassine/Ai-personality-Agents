@@ -23,10 +23,10 @@ The system consists of several interconnected workflows:
 
 ### Sub-Workflows
 - **Richard Feynman Agent**: Specialized AI agent with Google Gemini Chat Model and AI Vector integration with custom knowledge to enhance the response for the agent 
-![Richard Feynman Agent](photo/image copy.png)
+![System Overview](photo/agent2.png)
 
 - **DOSTOEVSKY Agent**: Literary-focused AI agent with RAG pipeline built on "Crime and Punishment" text for authentic literary discussions and more books 
-![DOSTOEVSKY Agent](photo/image copy 2.png)
+![System Overview](photo/agent1.png)
 
 ## Features
 
@@ -38,7 +38,7 @@ The system consists of several interconnected workflows:
 - 🧠 Vector-based AI knowledge retrieval with literary corpus (vector store)
 
 ## Workflow Components
-![Workflow Components](photo/image copy 3.png)
+![System Overview](photo/agent0.png)
 
 ### Triggers
 - **WhatsApp Trigger**: Initiates workflow on incoming messages
