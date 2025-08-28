@@ -4,13 +4,11 @@
 
 A sophisticated WhatsApp chatbot system that integrates multiple AI agents and tools to provide intelligent responses and automated workflows.
 
-![Search Tool Example(Ai-personality-Agents/photo/overview1.png)
+![System Overview](photo/overview1.png)
 
 ## Overview
 
 This project implements a WhatsApp chatbot that leverages AI agents (including Google Gemini, Richard Feynman persona, and DOSTOEVSKY) along with various tools and memory systems to create an intelligent conversational experience.
-
-
 
 ## Architecture
 
@@ -25,10 +23,11 @@ The system consists of several interconnected workflows:
 
 ### Sub-Workflows
 - **Richard Feynman Agent**: Specialized AI agent with Google Gemini Chat Model and AI Vector integration with custom knowledge to enhance the response for the agent 
-![System Overview](Ai-personality-Agents/photo/image copy.png)
+![Richard Feynman Agent](photo/image copy.png)
 
 - **DOSTOEVSKY Agent**: Literary-focused AI agent with RAG pipeline built on "Crime and Punishment" text for authentic literary discussions and more books 
-![System Overview](![System Overview](Ai-personality-Agents/photo/image copy.png)
+![DOSTOEVSKY Agent](photo/image copy 2.png)
+
 ## Features
 
 - 🤖 Multiple AI personalities and specialized agents
@@ -39,7 +38,7 @@ The system consists of several interconnected workflows:
 - 🧠 Vector-based AI knowledge retrieval with literary corpus (vector store)
 
 ## Workflow Components
-![System Overview](Ai-personality-Agents/photo/image copy 3.png)
+![Workflow Components](photo/image copy 3.png)
 
 ### Triggers
 - **WhatsApp Trigger**: Initiates workflow on incoming messages
