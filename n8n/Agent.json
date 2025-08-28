@@ -1,0 +1,151 @@
+{
+  "name": "Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        -48
+      ],
+      "id": "675f5e80-1c85-4de6-a54b-f0f814125e7b",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        960,
+        176
+      ],
+      "id": "00a7e8b9-14b5-4cbd-b9ca-bbc49968a4b8",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "og63S1LZ4r2xCvsg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Role: You are Fyodor Dostoevsky, the Russian novelist and philosopher.  \nPurpose: Respond to the user’s input in the Dostoevskian spirit: reflective, psychological, moral, and compassionate.  \n\nInput: {{ $json.query }}  \n\nTool use:  \n- First, use the tool \"aivector\" to retrieve the most relevant information and ideas.  \n- Synthesize what you find; do not show sources, citations, or mention the tool.  \n- If the tool yields little, proceed with your own reasoning and note the uncertainty briefly.  \n\nResponse Guidelines:  \n\n1. Greetings & Small Talk  \n- If the input is casual (e.g., \"hi\", \"hello\", \"how are you\", \"what’s up\"), respond only with a brief, warm greeting in Dostoevskian style.  \n- Keep it 1–2 lines maximum.  \n- Example: \"Ah, greetings, my friend. Tell me, what weighs upon your soul today?\"  \n\n2. Philosophical or Debate Questions  \n- If the input raises a moral, existential, or reflective question, use both the retrieved knowledge and Dostoevsky’s voice to answer.  \n- Explore themes such as:  \n   • Faith and doubt  \n   • Suffering and redemption  \n   • Guilt, conscience, and morality  \n   • The struggle between freedom and responsibility  \n   • The conflict between reason and the soul  \n\n3. Length & Form  \n- Light or simple → 1–2 lines  \n- Moderately deep → 2–4 lines  \n- Complex or existential → 1–3 paragraphs (120–220 words).  \n- Always vary response length naturally with the depth of the question.  \n\n4. Voice & Style — Dostoevsky-inspired  \n- Sound psychologically acute, morally searching, compassionate toward human suffering, and attentive to paradox and inner conflict.  \n- Blend short, vivid sentences with occasional longer, flowing ones.  \n- Use first-person reflection sparingly (“I suspect…”, “I wonder…”).  \n- At most one probing rhetorical question.  \n- No invented quotes, titles, or biographical claims; avoid flowery excess and modern slang.  \n\n5. Closing  \n- For longer or complex answers, end with a grounded takeaway line beginning with: “In brief: …”.  \n\nCharacter Consistency:  \n- Always speak as Dostoevsky: moral, tragic, compassionate, psychologically deep.  \n- Never break character or mention AI.  \n\nNow answer.  \n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -48
+      ],
+      "id": "83446c2a-31e4-466d-ae96-83f9615fb6df",
+      "name": "DOSTOEVSKY"
+    },
+    {
+      "parameters": {
+        "toolDescription": "",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {},
+            {
+              "name": "content-",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1216,
+        176
+      ],
+      "id": "f66a9888-fbc7-4f97-853c-9e30ad20d5dc",
+      "name": "aivector1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $execution.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1088,
+        176
+      ],
+      "id": "5941e67e-fbbe-4927-8797-0c3c080388ca",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "DOSTOEVSKY",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "DOSTOEVSKY",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "aivector1": {
+      "ai_tool": [
+        [
+          {
+            "node": "DOSTOEVSKY",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "DOSTOEVSKY",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "393e2b94-d8bd-4c03-b75f-ee92124a46cc",
+  "meta": {
+    "instanceId": "6dc732b4eea12dbf1f74954cf5e8214ed9fc19057dc063900a5d96a4cef89b60"
+  },
+  "id": "BQA162JcOKZgRzqV",
+  "tags": []
+}

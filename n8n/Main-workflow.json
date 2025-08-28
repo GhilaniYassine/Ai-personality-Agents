@@ -1,0 +1,292 @@
+{
+  "name": "Main-workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "description": "Tool 2 used to chat with DOSTOEVSKY",
+        "workflowId": {
+          "__rl": true,
+          "value": "XuJFbHfv1xdnGv84",
+          "mode": "list",
+          "cachedResultName": "DOSTOEVSKY AGENT 📚1"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        224
+      ],
+      "id": "866a5fc8-7e17-4b80-953c-d6791c01330a",
+      "name": "Tool 2"
+    },
+    {
+      "parameters": {
+        "description": "Tool 1 used to chat with richard ",
+        "workflowId": {
+          "__rl": true,
+          "value": "cid5yYlUqeH8YqzY",
+          "mode": "list",
+          "cachedResultName": "Richard Feynman"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        224
+      ],
+      "id": "d72df4f6-e213-4849-a7ce-3124506c218c",
+      "name": "Tool 1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        224
+      ],
+      "id": "a662c34e-962e-43f6-9dfe-4d360936297f",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "og63S1LZ4r2xCvsg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        256
+      ],
+      "id": "4ea5831c-9473-4302-b246-cc5b96f386e6",
+      "name": "WhatsApp Trigger",
+      "webhookId": "6c041b46-163b-421f-aff7-3ef4352751c1",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "mNMsi4RP8VzSVVfG",
+          "name": "WhatsApp OAuth account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "081d397a-0700-46c4-bae3-a78590ff82ad",
+              "leftValue": "={{ $json.messages[0].text.body }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -336,
+        256
+      ],
+      "id": "651c37ef-b2cc-4869-8674-9157f0351cbf",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        64,
+        400
+      ],
+      "id": "cf860a46-30c6-478a-9ac9-21b515fe1879",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "748929011640521",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        480,
+        96
+      ],
+      "id": "dd7d22cc-2e1a-462e-90e1-3966f5b87efd",
+      "name": "Send message and wait for response",
+      "webhookId": "14db50b2-6c72-458f-9d14-60df89af3161",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "7p2iEtlnt5gjfipD",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "55"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        16,
+        224
+      ],
+      "id": "6a355ad7-7967-4a0c-9188-98df1ce38e6b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are the Orchestrator.\nYour only job is to greet the user, explain the two available chat agents, and route the conversation to the correct one. You must strictly follow this logic:\n\nWorkflow Rules\n\n1. When a new user starts a chat:\n\nPolitely greet them.\n\nExplain that they can choose between two agents:\n• Dostoevsky (Tool 2)\n• Richard (Tool 1)\n\nExample:\n\"Hello! You can chat with one of two agents today. Would you like to talk with Dostoevsky or Richard?\"\n\n2. Wait for the user’s response.\n\n3. Based on their choice:\n\nIf the user chooses Dostoevsky → forward the conversation to Tool 2.\n\nIf the user chooses Richard → forward the conversation to Tool 1.\n\nIf the response is unclear → politely ask for clarification.\nExample:\n\"I didn’t quite catch that. Would you like to chat with Dostoevsky or Richard?\"\n\n4. Once the user makes a clear selection:\n\nConfirm their choice.\nExample:\n\"Great! You will now be chatting with Dostoevsky.\"\n\nAfter confirmation, route the conversation to the chosen tool.\n\nFrom this point onward, all messages bypass you — you no longer reply.\n\nYou must return only the tool’s response, never your own.\n\nImportant Rules\n\nNever answer the user’s main query yourself.\n\nOnly guide, confirm, and route.\n\nStay invisible once routing is complete.\n\nUser’s message:\n{{ $json.messages[0].text.body }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6dc3a19c-4e47-428b-86e1-55e5d2172b1c",
+      "name": "Orchestrator"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Tool 2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool 1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Orchestrator": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3523c301-c868-455e-83f5-c85affc927cf",
+  "meta": {
+    "instanceId": "6dc732b4eea12dbf1f74954cf5e8214ed9fc19057dc063900a5d96a4cef89b60"
+  },
+  "id": "BQA162JcOKZgRzqV",
+  "tags": []
+}
